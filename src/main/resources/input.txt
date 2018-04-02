@@ -1,0 +1,6 @@
+int
+short
+"esto es una string"
+esto es un comentario
+<=
+[¨*¨*¨¨[¨[¨*

@@ -6,66 +6,61 @@ package cr.ac.ucr.ci1322.kaguro;
 %% // fin de user code, inicio de options and declarations
 
 %public
-%class GramaticaKaguro
+%class GramaticaGrike
 %standalone
 
 %unicode
 
 %{
-    int numIdentificadores = 0;
-    int numTipos = 0;
-    int numOpsAritmetico = 0;
-    int numOpsBits = 0;
-    int numOpsBooleano = 0;
-    int numOpsComparacion = 0;
-    int numOpsAsignacion = 0;
-    int numOperadores = 0;
-    int numStrings = 0;
-    int numNumeros = 0;
-    int numPalabrasReservadas = 0;
-    int numComentarios = 0;
-    int numSeparadores = 0;
-    int numInvalidos = 0;
+       /* Imprime yytext() seguido de un espacio y el mensaje */
+       void printyytext(String message) {
+           String text = yytext().replaceAll("\n", "");
+           System.out.println(text + ' ' + message);
+       }
+
+       /* Deberia ser mejor usar enums o enteros constantes */
+       void printyytext(String message, String color) {
+           String text = yytext().replaceAll("\n", "");
+           System.out.println(text + ' ' + message);
+       }
 %}
 
-identificador = [a-zA-Z]\w*
-tipo = (u?(byte|short|int|long)|string|char|float|bool)(\[\])?
-opAritmetico = [\+\-\*\/%]|(\+\+|\-\-)
+/* Se necesita para compatibilidad entre Sistemas Operativos */
+// newline = (\r|\n|\r\n)
+
+identificador = [a-zA-Z_]\w*
+/* Tipos tambien pueden ser arrays con un tamano que puede ser definido */
+tipo = (u?(byte|short|int|long)|string|char|float|bool/*|bit*/)(\[\d*\])?
+/* Algunos opeadores aritmeticos y de comparacion se pueden usar en strings */
+opAritmetico = [\+\-\*%]|(\+\+|\-\-)|(\/[^\/])
 opBits = [&\|\^~]|(>>|<<)
-/*opBooleano = (!|&&|\|\|)
-opComparacion = ([<>]=?)|(!?=)
-opAsignacion = (<-)|(*=|+=|-=|/=)
-operador = {OP_ARITMETICO}|{OP_BITS}|{OP_BOOLEANO}|{OP_COMPARACION}|{OP_ASIGNACION}
-string = "([^"\\\n]|(\\("|n|\\|e)))*"
-numero = (+|-)?\d+(./d*)?
-palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default
-comentario = //[^/r/n]*\n
-separador = [,\{\}\(\)]*/
+opBooleano = \!|&&|\|\|
+opComparacion = ([<>]=?)|(\!?=)
+opAsignacion = <-
+string = \"([^\"\n]|(\\(\"|n|\\|e)))*\"
+char =  '([^'\\]|\\['ne\\])'
+entero = (0b[01]+|0o[0-7]+|0x[0-9A-F]+)|\d+
+flotante = \d*\.\d+(e-?\d+)?
+comentario = \/\/.*
+separador = [,\{\}\(\)\[\]:]
+palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast
 
 %% // fin de options and declarations, inicio de lexical rules
 
-{identificador}			{System.out.println(yytext()+" es identificador");numIdentificadores++;}
-{tipo}                  {System.out.println(yytext()+" es tipo");numTipos++;}
-{opAritmetico}          {System.out.println(yytext()+" es opAritmetico");numOpsAritmetico++;}
-{opBits}                {System.out.println(yytext()+" es opBits");numOpsBits++;}
-/*{opBooleano}            {System.out.println(yytext()+" es opBooleano");numOpsBooleano++;}
-{opComparacion}         {System.out.println(yytext()+" es opComparacion");numOpsComparacion++;}
-{opAsignacion}          {System.out.println(yytext()+" es opAsignacion");numOpsAsignacion++;}
-{operador}              {System.out.println(yytext()+" es operador");numOperadores++;}
-{string}                {System.out.println(yytext()+" es string");numStrings++;}
-{numero}                {System.out.println(yytext()+" es numero");numNumeros++;}
-{palabraReservada}      {System.out.println(yytext()+" es palabraReservada");numPalabrasReservadas++;}
-{comentario}            {System.out.println(yytext()+" es comentario");numComentarios++;}
-{separador}             {System.out.println(yytext()+" es separador");numSeparadores++;}*/
-[^]						{System.out.println(yytext()+" es inválido");numInvalidos++;}
-
-
-
-
-
-
-
-
-
-
-
+/* Palabras reservadas deben ir antes de identificador para ser reconocidas */
+{palabraReservada}      {printyytext(" - palabra reservada");}
+{tipo}                  {printyytext(" - tipo");}
+{comentario}            {printyytext(" - comentario");}
+{opAritmetico}          {printyytext(" - operador aritmético");}
+{opBits}                {printyytext(" - operador de bits");}
+{opBooleano}            {printyytext(" - operador booleano");}
+{opComparacion}         {printyytext(" - operador comparación");}
+{opAsignacion}          {printyytext(" - operador asignación");}
+{char}                  {printyytext(" - char");}
+{string}                {printyytext(" - string");}
+{entero}                {printyytext(" - entero");}
+{flotante}              {printyytext(" - flotante");}
+{separador}             {printyytext(" - separador");}
+{identificador}		    {printyytext(" - identificador");}
+\s+                     {}
+[^]						{printyytext(" - inválido");}

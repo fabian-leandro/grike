@@ -6,15 +6,8 @@
 
     <groupId>cr.ac.ucr.ci1322.kaguro</groupId>
     <artifactId>grike</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-    <dependencies>
-        <dependency>
-            <groupId>de.jflex</groupId>
-            <artifactId>jflex</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-    </dependencies>
+    <version>0.1</version>
+    <packaging>jar</packaging>
 
     <build>
         <plugins>
@@ -33,6 +26,22 @@
                     <outputDirectory>src/main/java/</outputDirectory>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>cr.ac.ucr.ci1322.kaguro.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

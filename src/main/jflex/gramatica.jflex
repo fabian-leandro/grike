@@ -35,7 +35,8 @@ package cr.ac.ucr.ci1322.kaguro;
     /* Imprime yytext() de color amarillo seguido de un espacio y el mensaje */
     /* Nota: puede que no sea portable atravez de plataformas */
     void printyytext(String message) {
-        System.out.println(TEXT_YELLOW + yytext() + TEXT_DEFAULT + ' ' + message);
+        String text = yytext().replaceAll("\n", "");
+        System.out.println(TEXT_YELLOW + text + TEXT_DEFAULT + ' ' + message);
     }
 %}
 
@@ -77,7 +78,7 @@ palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|d
 {string}                {printyytext("es string");numStrings++;}
 {numero}                {printyytext("es numero");numNumeros++;}
 {separador}             {printyytext("es separador");numSeparadores++;}
-{identificador}			{printyytext("es identificador");numIdentificadores++;}
+{identificador}		    {printyytext("es identificador");numIdentificadores++;}
 \s+                     {printyytext("es un espacio");numEspacios++;}
 [^]						{printyytext("es inválido");numInvalidos++;}
 

@@ -12,22 +12,6 @@ package cr.ac.ucr.ci1322.kaguro;
 %unicode
 
 %{
-    int numIdentificadores = 0;
-    int numTipos = 0;
-    int numOpsAritmetico = 0;
-    int numOpsBits = 0;
-    int numOpsBooleano = 0;
-    int numOpsComparacion = 0;
-    int numOpsAsignacion = 0;
-    int numOperadores = 0;
-    int numStrings = 0;
-    int numNumeros = 0;
-    int numPalabrasReservadas = 0;
-    int numComentarios = 0;
-    int numSeparadores = 0;
-    int numInvalidos = 0;
-    int numEspacios = 0;
-
     static final char ESC = (char)27;
     static final String TEXT_DEFAULT = ESC + "[m";
     static final String TEXT_YELLOW = ESC + "[33m";
@@ -43,44 +27,42 @@ package cr.ac.ucr.ci1322.kaguro;
 /* Se necesita para compatibilidad entre Sistemas Operativos */
 // newline = (\r|\n|\r\n)
 
-/* guiones bajos? (snek_case) */
 identificador = [a-zA-Z_]\w*
 /* Tipos tambien pueden ser arrays con un tamano que puede ser definido */
-tipo = (u?(byte|short|int|long)|string|char|float|bool)(\[\d*\])?
+tipo = (u?(byte|short|int|long)|string|char|float|bool/*|bit*/)(\[\d*\])?
 /* Algunos opeadores aritmeticos y de comparacion se pueden usar en strings */
 opAritmetico = [\+\-\*%]|(\+\+|\-\-)|(\/[^\/])
 opBits = [&\|\^~]|(>>|<<)
 opBooleano = \!|&&|\|\|
 opComparacion = ([<>]=?)|(\!?=)
 opAsignacion = <-
-//operador = {opAritmetico}|{opBits}|{opBooleano}|{opComparacion}|{opAsignacion}
 string = \"([^\"\n]|(\\(\"|n|\\|e)))*\"
-/* Notacion cientifica? (1.23e-9) */
-/* Hexadecimal/Octal/Binario? (0xDEADBEEF/0777/111000b) */
-numero = (\+|\-)?\d+(\.\d*)?
-comentario = "//".*
-/* ,{}():[]*/
+char =  '([^'\\]|\\['ne\\])'
+entero = (0b[01]+|0o[0-7]+|0x[0-9A-F]+)|\d+ \\esta mal
+flotante = \d*\.\d+(e-?\d+)?
+comentario = \/\/.*
 separador = [,\{\}\(\)\[\]:]
-palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast
+palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast /*|struct|union|typedef|const*/
 
 %% // fin de options and declarations, inicio de lexical rules
 
 /* Palabras reservadas deben ir antes de identificador para ser reconocidas */
-{palabraReservada}      {printyytext("es palabraReservada");numPalabrasReservadas++;}
-{tipo}                  {printyytext("es tipo");numTipos++;}
-{comentario}            {printyytext("es comentario");numComentarios++;}
-{opAritmetico}          {printyytext("es opAritmetico");numOpsAritmetico++;}
-{opBits}                {printyytext("es opBits");numOpsBits++;}
-{opBooleano}            {printyytext("es opBooleano");numOpsBooleano++;}
-{opComparacion}         {printyytext("es opComparacion");numOpsComparacion++;}
-{opAsignacion}          {printyytext("es opAsignacion");numOpsAsignacion++;}
-//{operador}              {System.out.println(yytext()+" es operador");numOperadores++;}
-{string}                {printyytext("es string");numStrings++;}
-{numero}                {printyytext("es numero");numNumeros++;}
-{separador}             {printyytext("es separador");numSeparadores++;}
-{identificador}		    {printyytext("es identificador");numIdentificadores++;}
-\s+                     {printyytext("es un espacio");numEspacios++;}
-[^]						{printyytext("es inválido");numInvalidos++;}
+{palabraReservada}      {printyytext("es palabraReservada");}
+{tipo}                  {printyytext("es tipo");}
+{comentario}            {printyytext("es comentario");}
+{opAritmetico}          {printyytext("es opAritmetico");}
+{opBits}                {printyytext("es opBits");}
+{opBooleano}            {printyytext("es opBooleano");}
+{opComparacion}         {printyytext("es opComparacion");}
+{opAsignacion}          {printyytext("es opAsignacion");}
+{char}                  {printyytext("es char");}
+{string}                {printyytext("es string");}
+{entero}                {printyytext("es entero");}
+{flotante}              {printyytext("es flotante");}
+{separador}             {printyytext("es separador");}
+{identificador}		    {printyytext("es identificador");}
+\s+                     {}
+[^]						{printyytext("es inválido");}
 
 
 

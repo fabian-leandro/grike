@@ -17,12 +17,6 @@ package cr.ac.ucr.ci1322.kaguro;
            String text = yytext().replaceAll("\n", "");
            System.out.println(text + ' ' + message);
        }
-
-       /* Deberia ser mejor usar enums o enteros constantes */
-       void printyytext(String message, String color) {
-           String text = yytext().replaceAll("\n", "");
-           System.out.println(text + ' ' + message);
-       }
 %}
 
 /* Se necesita para compatibilidad entre Sistemas Operativos */
@@ -38,9 +32,9 @@ opBooleano = \!|&&|\|\|
 opComparacion = ([<>]=?)|(\!?=)
 opAsignacion = <-
 string = \"([^\"\n]|(\\(\"|n|\\|e)))*\"
-char =  '([^'\\]|\\['ne\\])'
+char =  '([^'\\]|\\['nte\\])'
 entero = (0b[01]+|0o[0-7]+|0x[0-9A-F]+)|\d+
-flotante = \d*\.\d+(e-?\d+)?
+flotante = \d*\.\d+(e[+-]?\d+)?
 comentario = \/\/.*
 separador = [,\{\}\(\)\[\]:]
 palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast
@@ -61,6 +55,6 @@ palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|d
 {entero}                {printyytext(" - entero");}
 {flotante}              {printyytext(" - flotante");}
 {separador}             {printyytext(" - separador");}
-{identificador}		    {printyytext(" - identificador");}
+{identificador}         {printyytext(" - identificador");}
 \s+                     {}
-[^]						{printyytext(" - inválido");}
+[^]                     {printyytext(" - inválido");}

@@ -6,29 +6,22 @@ package cr.ac.ucr.ci1322.kaguro;
 %% // fin de user code, inicio de options and declarations
 
 %public
-%class GramaticaKaguro
+%class GramaticaGrike
 %standalone
 
 %unicode
 
 %{
-    static final char ESC = (char)27;
-       static final String TEXT_DEFAULT = ESC + "[m";
-       static final String TEXT_YELLOW = ESC + "[33m";
-       static final String TEXT_GREEN = ESC + "[32m";
-       static final String TEXT_RED = ESC + "[31m";
-
-       /* Imprime yytext() de color amarillo seguido de un espacio y el mensaje */
-       /* Nota: puede que no sea portable atravez de plataformas */
+       /* Imprime yytext() seguido de un espacio y el mensaje */
        void printyytext(String message) {
            String text = yytext().replaceAll("\n", "");
-           System.out.println(TEXT_GREEN + text + TEXT_DEFAULT + ' ' + message);
+           System.out.println(text + ' ' + message);
        }
 
        /* Deberia ser mejor usar enums o enteros constantes */
        void printyytext(String message, String color) {
            String text = yytext().replaceAll("\n", "");
-           System.out.println(color + text + TEXT_DEFAULT + ' ' + message);
+           System.out.println(text + ' ' + message);
        }
 %}
 
@@ -50,7 +43,7 @@ entero = (0b[01]+|0o[0-7]+|0x[0-9A-F]+)|\d+
 flotante = \d*\.\d+(e-?\d+)?
 comentario = \/\/.*
 separador = [,\{\}\(\)\[\]:]
-palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast /*|struct|union|typedef|const*/
+palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast
 
 %% // fin de options and declarations, inicio de lexical rules
 
@@ -70,4 +63,4 @@ palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|d
 {separador}             {printyytext(" - separador");}
 {identificador}		    {printyytext(" - identificador");}
 \s+                     {}
-[^]						{printyytext("es inválido",TEXT_RED);}
+[^]						{printyytext(" - inválido");}

@@ -6,7 +6,8 @@
 
     <groupId>cr.ac.ucr.ci1322.kaguro</groupId>
     <artifactId>grike</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1</version>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -33,6 +34,21 @@
                     <outputDirectory>src/main/java/</outputDirectory>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>cr.ac.ucr.ci1322.kaguro.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

@@ -7,15 +7,18 @@ public class Main {
     private static final String outputFile = "target/sample.out";
 
     public static void main(String[] args) {
-        String[] argv = new String[1];
-        argv[0] = "src/main/resources/input.txt";
 
-        try {
-            GramaticaKaguro gram = new GramaticaKaguro(new FileReader(argv[0]));
-            GramaticaKaguro.main(argv);
-        } catch(FileNotFoundException e ) {
-            e.printStackTrace();
+        if(args.length != 1) {
+            System.out.println("Por favor incluya un solo argumento que contiene una ruta a un archivo de código fuente .grk");
+        } else {
+            FileReader sourceCode = null;
+            try {
+                sourceCode = new FileReader(args[0]);
+            } catch(FileNotFoundException e) {
+                System.out.println("No se encontró "+args[0]);
+            }
+            GramaticaGrike gram = new GramaticaGrike(sourceCode);
+            gram.main(args);
         }
     }
-
 }

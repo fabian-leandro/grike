@@ -40,10 +40,10 @@ package cr.ac.ucr.ci1322.kaguro;
 %}
 
 /* Se necesita para compatibilidad entre Sistemas Operativos */
-newline = (\r|\n|\r\n)
+// newline = (\r|\n|\r\n)
 
 /* guiones bajos? (snek_case) */
-identificador = [a-zA-Z]\w*
+identificador = [a-zA-Z_]\w*
 /* Tipos tambien pueden ser arrays con un tamano que puede ser definido */
 tipo = (u?(byte|short|int|long)|string|char|float|bool)(\[\d*\])?
 /* Algunos opeadores aritmeticos y de comparacion se pueden usar en strings */
@@ -57,7 +57,7 @@ string = \"([^\"\n]|(\\(\"|n|\\|e)))*\"
 /* Notacion cientifica? (1.23e-9) */
 /* Hexadecimal/Octal/Binario? (0xDEADBEEF/0777/111000b) */
 numero = (\+|\-)?\d+(\.\d*)?
-comentario = "//"[^\r\n]*{newline}
+comentario = "//".*
 /* ,{}():[]*/
 separador = [,\{\}\(\)\[\]:]
 palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast
@@ -67,7 +67,6 @@ palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|d
 /* Palabras reservadas deben ir antes de identificador para ser reconocidas */
 {palabraReservada}      {printyytext("es palabraReservada");numPalabrasReservadas++;}
 {tipo}                  {printyytext("es tipo");numTipos++;}
-{identificador}			{printyytext("es identificador");numIdentificadores++;}
 {comentario}            {printyytext("es comentario");numComentarios++;}
 {opAritmetico}          {printyytext("es opAritmetico");numOpsAritmetico++;}
 {opBits}                {printyytext("es opBits");numOpsBits++;}
@@ -78,6 +77,7 @@ palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|d
 {string}                {printyytext("es string");numStrings++;}
 {numero}                {printyytext("es numero");numNumeros++;}
 {separador}             {printyytext("es separador");numSeparadores++;}
+{identificador}			{printyytext("es identificador");numIdentificadores++;}
 \s+                     {printyytext("es un espacio");numEspacios++;}
 [^]						{printyytext("es inválido");numInvalidos++;}
 

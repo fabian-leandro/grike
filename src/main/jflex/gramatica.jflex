@@ -13,15 +13,23 @@ package cr.ac.ucr.ci1322.kaguro;
 
 %{
     static final char ESC = (char)27;
-    static final String TEXT_DEFAULT = ESC + "[m";
-    static final String TEXT_YELLOW = ESC + "[33m";
+       static final String TEXT_DEFAULT = ESC + "[m";
+       static final String TEXT_YELLOW = ESC + "[33m";
+       static final String TEXT_GREEN = ESC + "[32m";
+       static final String TEXT_RED = ESC + "[31m";
 
-    /* Imprime yytext() de color amarillo seguido de un espacio y el mensaje */
-    /* Nota: puede que no sea portable atravez de plataformas */
-    void printyytext(String message) {
-        String text = yytext().replaceAll("\n", "");
-        System.out.println(TEXT_YELLOW + text + TEXT_DEFAULT + ' ' + message);
-    }
+       /* Imprime yytext() de color amarillo seguido de un espacio y el mensaje */
+       /* Nota: puede que no sea portable atravez de plataformas */
+       void printyytext(String message) {
+           String text = yytext().replaceAll("\n", "");
+           System.out.println(TEXT_GREEN + text + TEXT_DEFAULT + ' ' + message);
+       }
+
+       /* Deberia ser mejor usar enums o enteros constantes */
+       void printyytext(String message, String color) {
+           String text = yytext().replaceAll("\n", "");
+           System.out.println(color + text + TEXT_DEFAULT + ' ' + message);
+       }
 %}
 
 /* Se necesita para compatibilidad entre Sistemas Operativos */
@@ -38,7 +46,7 @@ opComparacion = ([<>]=?)|(\!?=)
 opAsignacion = <-
 string = \"([^\"\n]|(\\(\"|n|\\|e)))*\"
 char =  '([^'\\]|\\['ne\\])'
-entero = (0b[01]+|0o[0-7]+|0x[0-9A-F]+)|\d+ \\esta mal
+entero = (0b[01]+|0o[0-7]+|0x[0-9A-F]+)|\d+
 flotante = \d*\.\d+(e-?\d+)?
 comentario = \/\/.*
 separador = [,\{\}\(\)\[\]:]
@@ -62,15 +70,4 @@ palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|d
 {separador}             {printyytext(" - separador");}
 {identificador}		    {printyytext(" - identificador");}
 \s+                     {}
-[^]						{printyytext("es inválido");}
-
-
-
-
-
-
-
-
-
-
-
+[^]						{printyytext("es inválido",TEXT_RED);}

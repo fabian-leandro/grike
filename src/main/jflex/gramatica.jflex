@@ -47,20 +47,20 @@ palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|d
 %% // fin de options and declarations, inicio de lexical rules
 
 /* Palabras reservadas deben ir antes de identificador para ser reconocidas */
-{palabraReservada}      {printyytext("es palabraReservada");}
-{tipo}                  {printyytext("es tipo");}
-{comentario}            {printyytext("es comentario");}
-{opAritmetico}          {printyytext("es opAritmetico");}
-{opBits}                {printyytext("es opBits");}
-{opBooleano}            {printyytext("es opBooleano");}
-{opComparacion}         {printyytext("es opComparacion");}
-{opAsignacion}          {printyytext("es opAsignacion");}
-{char}                  {printyytext("es char");}
-{string}                {printyytext("es string");}
-{entero}                {printyytext("es entero");}
-{flotante}              {printyytext("es flotante");}
-{separador}             {printyytext("es separador");}
-{identificador}		    {printyytext("es identificador");}
+{palabraReservada}      {printyytext(" - palabra reservada");}
+{tipo}                  {printyytext(" - tipo");}
+{comentario}            {printyytext(" - comentario");}
+{opAritmetico}          {printyytext(" - operador aritmético");}
+{opBits}                {printyytext(" - operador de bits");}
+{opBooleano}            {printyytext(" - operador booleano");}
+{opComparacion}         {printyytext(" - operador comparación");}
+{opAsignacion}          {printyytext(" - operador asignación");}
+{char}                  {printyytext(" - char");}
+{string}                {printyytext(" - string");}
+{entero}                {printyytext(" - entero");}
+{flotante}              {printyytext(" - flotante");}
+{separador}             {printyytext(" - separador");}
+{identificador}		    {printyytext(" - identificador");}
 \s+                     {}
 [^]						{printyytext("es inválido");}
 

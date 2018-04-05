@@ -31,8 +31,8 @@ opBits = [&\|\^~]|(>>|<<)
 opBooleano = \!|&&|\|\|
 opComparacion = ([<>]=?)|(\!?=)
 opAsignacion = <-
-string = \"([^\"\n]|(\\(\"|n|\\|e)))*\"
-char =  '([^'\\]|\\['nte\\])'
+string = \"([^\"\n\\]|(\\[\\\"net]))*\"
+char =  '([^'\\]|\\[\\'net])'
 entero = (0b[01]+|0o[0-7]+|0x[0-9A-F]+)|\d+
 flotante = \d*\.\d+(e[+-]?\d+)?
 comentario = \/\/.*

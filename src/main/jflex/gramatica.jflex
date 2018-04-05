@@ -26,38 +26,60 @@ package cr.ac.ucr.ci1322.kaguro;
     int numComentarios = 0;
     int numSeparadores = 0;
     int numInvalidos = 0;
+    int numEspacios = 0;
+
+    static final char ESC = (char)27;
+    static final String TEXT_DEFAULT = ESC + "[m";
+    static final String TEXT_YELLOW = ESC + "[33m";
+
+    /* Imprime yytext() de color amarillo seguido de un espacio y el mensaje */
+    /* Nota: puede que no sea portable atravez de plataformas */
+    void printyytext(String message) {
+        System.out.println(TEXT_YELLOW + yytext() + TEXT_DEFAULT + ' ' + message);
+    }
 %}
 
+/* Se necesita para compatibilidad entre Sistemas Operativos */
+newline = (\r|\n|\r\n)
+
+/* guiones bajos? (snek_case) */
 identificador = [a-zA-Z]\w*
-tipo = (u?(byte|short|int|long)|string|char|float|bool)(\[\])?
-opAritmetico = [\+\-\*\/%]|(\+\+|\-\-)
+/* Tipos tambien pueden ser arrays con un tamano que puede ser definido */
+tipo = (u?(byte|short|int|long)|string|char|float|bool)(\[\d*\])?
+/* Algunos opeadores aritmeticos y de comparacion se pueden usar en strings */
+opAritmetico = [\+\-\*%]|(\+\+|\-\-)|(\/[^\/])
 opBits = [&\|\^~]|(>>|<<)
-/*opBooleano = (!|&&|\|\|)
-opComparacion = ([<>]=?)|(!?=)
-opAsignacion = (<-)|(*=|+=|-=|/=)
-operador = {OP_ARITMETICO}|{OP_BITS}|{OP_BOOLEANO}|{OP_COMPARACION}|{OP_ASIGNACION}
-string = "([^"\\\n]|(\\("|n|\\|e)))*"
-numero = (+|-)?\d+(./d*)?
-palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default
-comentario = //[^/r/n]*\n
-separador = [,\{\}\(\)]*/
+opBooleano = \!|&&|\|\|
+opComparacion = ([<>]=?)|(\!?=)
+opAsignacion = <-
+//operador = {opAritmetico}|{opBits}|{opBooleano}|{opComparacion}|{opAsignacion}
+string = \"([^\"\n]|(\\(\"|n|\\|e)))*\"
+/* Notacion cientifica? (1.23e-9) */
+/* Hexadecimal/Octal/Binario? (0xDEADBEEF/0777/111000b) */
+numero = (\+|\-)?\d+(\.\d*)?
+comentario = "//"[^\r\n]*{newline}
+/* ,{}():[]*/
+separador = [,\{\}\(\)\[\]:]
+palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast
 
 %% // fin de options and declarations, inicio de lexical rules
 
-{identificador}			{System.out.println(yytext()+" es identificador");numIdentificadores++;}
-{tipo}                  {System.out.println(yytext()+" es tipo");numTipos++;}
-{opAritmetico}          {System.out.println(yytext()+" es opAritmetico");numOpsAritmetico++;}
-{opBits}                {System.out.println(yytext()+" es opBits");numOpsBits++;}
-/*{opBooleano}            {System.out.println(yytext()+" es opBooleano");numOpsBooleano++;}
-{opComparacion}         {System.out.println(yytext()+" es opComparacion");numOpsComparacion++;}
-{opAsignacion}          {System.out.println(yytext()+" es opAsignacion");numOpsAsignacion++;}
-{operador}              {System.out.println(yytext()+" es operador");numOperadores++;}
-{string}                {System.out.println(yytext()+" es string");numStrings++;}
-{numero}                {System.out.println(yytext()+" es numero");numNumeros++;}
-{palabraReservada}      {System.out.println(yytext()+" es palabraReservada");numPalabrasReservadas++;}
-{comentario}            {System.out.println(yytext()+" es comentario");numComentarios++;}
-{separador}             {System.out.println(yytext()+" es separador");numSeparadores++;}*/
-[^]						{System.out.println(yytext()+" es inválido");numInvalidos++;}
+/* Palabras reservadas deben ir antes de identificador para ser reconocidas */
+{palabraReservada}      {printyytext("es palabraReservada");numPalabrasReservadas++;}
+{tipo}                  {printyytext("es tipo");numTipos++;}
+{identificador}			{printyytext("es identificador");numIdentificadores++;}
+{comentario}            {printyytext("es comentario");numComentarios++;}
+{opAritmetico}          {printyytext("es opAritmetico");numOpsAritmetico++;}
+{opBits}                {printyytext("es opBits");numOpsBits++;}
+{opBooleano}            {printyytext("es opBooleano");numOpsBooleano++;}
+{opComparacion}         {printyytext("es opComparacion");numOpsComparacion++;}
+{opAsignacion}          {printyytext("es opAsignacion");numOpsAsignacion++;}
+//{operador}              {System.out.println(yytext()+" es operador");numOperadores++;}
+{string}                {printyytext("es string");numStrings++;}
+{numero}                {printyytext("es numero");numNumeros++;}
+{separador}             {printyytext("es separador");numSeparadores++;}
+\s+                     {printyytext("es un espacio");numEspacios++;}
+[^]						{printyytext("es inválido");numInvalidos++;}
 
 
 

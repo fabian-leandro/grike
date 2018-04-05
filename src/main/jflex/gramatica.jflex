@@ -15,6 +15,8 @@ package cr.ac.ucr.ci1322.kaguro;
        /* Imprime yytext() seguido de un espacio y el mensaje */
        void printyytext(String message) {
            String text = yytext().replaceAll("\n", "");
+           // se necesita para diferentes codificaciones de archivos de texto
+           text = text.replaceAll("\r", "");
            System.out.println(text + ' ' + message);
        }
 %}
@@ -31,8 +33,8 @@ opBits = [&\|\^~]|(>>|<<)
 opBooleano = \!|&&|\|\|
 opComparacion = ([<>]=?)|(\!?=)
 opAsignacion = <-
-string = \"([^\"\n\\]|(\\[\\\"net]))*\"
-char =  '([^'\\]|\\[\\'net])'
+string = \"([^\"\r\n\\]|(\\[\\\"net]))*\"
+char =  '([^'\r\n\\]|\\[\\'net])'
 entero = (0b[01]+|0o[0-7]+|0x[0-9A-F]+)|\d+
 flotante = \d*\.\d+(e[+-]?\d+)?
 comentario = \/\/.*

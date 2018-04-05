@@ -1,0 +1,16 @@
+primes(uint n){
+    bit[n] sieve <- {}
+    uint r <- sqrt(n)
+    for (uint i <- 2::r) {
+        if (sieve[i]) continue
+        for (uint j <- i*2:i:n) {
+            sieve[j] -> true
+        }
+    }
+
+    for (uint i <- 1::n) {
+	if(!sieve[i]){
+            print(cast:string(i))
+        }
+    }
+}

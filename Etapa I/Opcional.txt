@@ -1,0 +1,10 @@
+¿Qué motivó la innovación? ¿Cuál es el problema que está tratando de resolver esta innovación?
+	La innovación fue motivada por el hecho de que para trabajar en la plataforma Arduino 
+	requiere aprender un lenguaje de alta dificultad como C/C++. No hay un lenguaje 
+	orientado a principiantes que se pueda utilizar para empezar a aprender a usar 
+	un Arduino.
+
+¿Cuál es la innovación?
+	Grike pretende ser un lenguaje simple orientado a la programación en Arduino, para 
+	ofrecer una alternativa diferente a C/C++. De esta manera, no será necesario aprender 
+	un lenguaje que podría resultar difícil para principiantes.

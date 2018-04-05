@@ -1,0 +1,14 @@
+fibonacci_secuence(uint n){
+    for (uint c <- 0: 1 : n){
+        print(cast:string(fibonacci(c)+", ")
+    }
+}
+
+fibonacci:uint(uint number){
+    if(number < 2){
+        return number
+    }else{
+	return fibonacci(number - 2) + fibonacci(number - 1)
+    }
+}
+

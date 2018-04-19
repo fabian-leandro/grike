@@ -6,12 +6,3 @@ triangle:(uint n, char x){
         print("\n")
     }
 }
-
-triangle:(uint n, char x){
-   for(1,n)->i{
-   	for(1,i){
-	   print(x)
-	}
-	print("\n")
-   }	
-}

@@ -47,7 +47,7 @@ palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|d
 {palabraReservada}      {printyytext(" - palabra reservada");}
 {tipo}                  {printyytext(" - tipo");}
 {comentario}            {printyytext(" - comentario");}
-{opAritmetico}          {printyytext(" - operador aritmético");}
+{opAritmetico}          {printyytext(" - operador aritmético"); return symbol();}
 {opBits}                {printyytext(" - operador de bits");}
 {opBooleano}            {printyytext(" - operador booleano");}
 {opComparacion}         {printyytext(" - operador comparación");}

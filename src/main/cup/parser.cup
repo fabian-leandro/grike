@@ -1,0 +1,10 @@
+package cr.ac.ucr.ci1322.kaguro;
+
+import java_cup.runtime.*;
+
+
+terminal PLUS;
+terminal Integer NUMBER;
+non terminal EXPR;
+
+EXPR::= NUMBER PLUS NUMBER;

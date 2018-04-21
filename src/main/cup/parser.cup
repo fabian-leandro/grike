@@ -1,10 +1,46 @@
 package cr.ac.ucr.ci1322.kaguro;
 
-import java_cup.runtime.*;
+/* Nombre del archivo a generar */
+// TODO(Carlos): probablemente quieran cambiar este nombre
+class Grike;
 
+//import java_cup.runtime.*;
 
-terminal PLUS;
-terminal Integer NUMBER;
-non terminal EXPR;
+//action code {: :};
+//init with {: :};
+//scan with {: :};
 
-EXPR::= NUMBER PLUS NUMBER;
+/***** Declaraciones de los Symbolos *****/
+
+/* Tipos */
+// TODO: String, enteros, flotantes, arrays
+
+/* Literales */
+// TODO: String, enteros, flotantes, arrays
+terminal Integer    NUMBER;
+
+/* Operadores */
+// TODO: aritmeticos, bits, bool
+terminal            PLUS;
+terminal            TIMES;
+
+/* Separadores */
+// TODO: parentesis, coma, dos puntos, espacios, newline
+terminal            LPAREN, RPAREN;
+
+/* Misc */
+// TODO: reservadas, identificadores
+
+/* No terminales */
+non terminal        EXPR;
+
+/***** Precedencia *****/
+precedence left     PLUS;
+precedence left     TIMES;
+
+/***** Gramatica *****/
+// No-terminal raiz
+start with EXPR;
+
+// TODO: declaraciones, asignaciones, expresiones, bloques
+EXPR        ::= NUMBER PLUS NUMBER;

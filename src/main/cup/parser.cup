@@ -1,7 +1,6 @@
 package cr.ac.ucr.ci1322.kaguro;
 
 /* Nombre del archivo a generar */
-// TODO(Carlos): probablemente quieran cambiar este nombre
 class Grike;
 
 //import java_cup.runtime.*;
@@ -13,23 +12,44 @@ class Grike;
 /***** Declaraciones de los Symbolos *****/
 
 /* Tipos */
-// TODO: String, enteros, flotantes, arrays
+// TODO: unsigned?
+terminal            INT, BYTE, SHORT, LONG;
+terminal            FLOAT;
+terminal            BOOL;
+terminal            STRING, CHAR;
 
 /* Literales */
-// TODO: String, enteros, flotantes, arrays
-terminal Integer    NUMBER;
+terminal Integer    INTEGER;
+terminal String     STR;
+terminal Float      REAL;
+terminal Char       CHARL;
 
 /* Operadores */
-// TODO: aritmeticos, bits, bool
-terminal            PLUS;
-terminal            TIMES;
+terminal            PLUS, MINUS, TIMES, DIVIDE, MOD;
+terminal            INC, DEC;
+terminal            BNOT, BAND, BOR, XOR, SHL, SHR;
+terminal            NOT, AND, OR;
+terminal            EQUAL, NOTEQUAL, LESS, GREATER, LESSEQ, GREATEREQ;
+terminal            ASSIGN;
 
 /* Separadores */
-// TODO: parentesis, coma, dos puntos, espacios, newline
 terminal            LPAREN, RPAREN;
+terminal            LBRACE, RBRACE;
+terminal            LBRACK, RBRACK;
+terminal            COMMA, COLON;
+
+/* Reservadas */
+terminal            IF, ELSE;
+terminal            SWITCH, CASE, DEFAULT, FALLTHROUGH;
+terminal            FOR, WHILE;
+terminal            BREAK, CONTINUE;
+terminal            RETURN;
+terminal            CAST;
+// bool literal?
+terminal            TRUE, FALSE;
 
 /* Misc */
-// TODO: reservadas, identificadores
+terminal            IDENTIFIER;
 
 /* No terminales */
 non terminal        EXPR;
@@ -43,4 +63,4 @@ precedence left     TIMES;
 start with EXPR;
 
 // TODO: declaraciones, asignaciones, expresiones, bloques
-EXPR        ::= NUMBER PLUS NUMBER;
+EXPR        ::= INTEGER PLUS INTEGER;

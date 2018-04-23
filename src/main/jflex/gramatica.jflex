@@ -3,6 +3,8 @@
 // incluir el paquete
 package cr.ac.ucr.ci1322.kaguro;
 
+import java_cup.runtime.*;
+
 %% // fin de user code, inicio de options and declarations
 
 %public
@@ -11,14 +13,32 @@ package cr.ac.ucr.ci1322.kaguro;
 
 %unicode
 
+// IMPORTANT!!! CUP compatibility
+%cup
+%eofval{
+    return new Symbol(GrikeSym.EOF);
+%eofval}
+
+
 %{
-       /* Imprime yytext() seguido de un espacio y el mensaje */
-       void printyytext(String message) {
-           String text = yytext().replaceAll("\n", "");
-           // se necesita para diferentes codificaciones de archivos de texto
-           text = text.replaceAll("\r", "");
-           System.out.println(text + ' ' + message);
-       }
+    /* Imprime yytext() seguido de un espacio y el mensaje */
+    void printyytext(String message) {
+        String text = yytext().replaceAll("\n", "");
+        // se necesita para diferentes codificaciones de archivos de texto
+        text = text.replaceAll("\r", "");
+        System.out.println(text + ' ' + message);
+    }
+
+    int getSymIndex(String name) {
+        for (int i = 2; i < GrikeSym.terminalNames.length; ++i) {
+            if (name.equals(GrikeSym.terminalNames[i])) {
+                System.out.println(GrikeSym.terminalNames[i]);
+                return i;
+            }
+        }
+        // returns error if not found
+        return 0;
+    }
 %}
 
 /* Se necesita para compatibilidad entre Sistemas Operativos */
@@ -42,12 +62,12 @@ separador = [,\{\}\(\)\[\]:]
 palabraReservada = if|else|while|for|return|true|false|switch|fallthrough|case|default|continue|break|cast
 
 %% // fin de options and declarations, inicio de lexical rules
+{palabraReservada}      {return new Symbol(getSymIndex(yytext().toUpperCase()));}
+{tipo}                  {return new Symbol(getSymIndex(yytext().toUpperCase()));}
 
-/* Palabras reservadas deben ir antes de identificador para ser reconocidas */
-{palabraReservada}      {printyytext(" - palabra reservada");}
-{tipo}                  {printyytext(" - tipo");}
 {comentario}            {printyytext(" - comentario");}
-{opAritmetico}          {printyytext(" - operador aritmético"); return symbol();}
+
+{opAritmetico}          {printyytext(" - operador aritmético");}
 {opBits}                {printyytext(" - operador de bits");}
 {opBooleano}            {printyytext(" - operador booleano");}
 {opComparacion}         {printyytext(" - operador comparación");}
